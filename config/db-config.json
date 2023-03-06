@@ -1,8 +1,15 @@
 {
   "development": {
     "username": "root",
-    "password": null,
-    "database": "database_development",
+    "password": "lottery",
+    "database": "lottery_db",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "goerli": {
+    "username": "root",
+    "password": "lottery",
+    "database": "lottery_db",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },

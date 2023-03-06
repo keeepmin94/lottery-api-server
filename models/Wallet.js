@@ -6,7 +6,7 @@ require("dotenv").config({
 });
 
 module.exports = async (sequelize, DataTypes) => {
-  const wallet = sequelize.define(
+  const Wallet = sequelize.define(
     "Wallet",
     {
       id: {
@@ -49,18 +49,23 @@ module.exports = async (sequelize, DataTypes) => {
     }
   );
 
-  wallet.sync().then(async () => {
-    const masterWallet = await wallet.findOne({
+  Wallet.sync().then(async () => {
+    const masterWallet = await Wallet.findOne({
       where: { account: process.env.MASTER_WALLET_ADDRESS },
     });
-  });
-  if(_.isEmpty(masterWallet)){
-    await wallet.create({
+    console.log(`nananananan------------`);
+    console.log(`${JSON.stringify(masterWallet)}`);
+    if (_.isEmpty(masterWallet)) {
+      await Wallet.create({
         account_name: "master",
         account: process.env.MASTER_WALLET_ADDRESS,
         private_key: process.env.MASTER_WALLET_PRIVATE_KEY,
         is_master: true,
-    })
-  }
-  return wallet;
+      });
+      console.log(`-------------------make it!!!---------`);
+    }
+    console.log(`-------------------no make!!!---------`);
+  });
+
+  return Wallet;
 };

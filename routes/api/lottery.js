@@ -5,4 +5,6 @@ const LotteryController = require("../../controllers/LotteryController");
 
 router.post("/enter", LotteryController.enter);
 
+router.get("/balance", LotteryController.getBalance);
+
 module.exports = router;

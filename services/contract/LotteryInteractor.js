@@ -59,6 +59,27 @@ class LotteryInteractor {
       };
     }
   }
+
+  async getBalance() {
+    const funcName = "getBalance";
+    try {
+      const balance = await this.Lottery.methods.getBalance().call();
+      console.log(`[${funcName}] balance of Lottery: ${balance}`);
+
+      return {
+        status: true,
+        result: balance,
+        errMsg: null,
+      };
+    } catch (err) {
+      console.error(`[${funcName}] err:`, err);
+      return {
+        status: false,
+        result: null,
+        errMsg: err.message,
+      };
+    }
+  }
 }
 
 module.exports = LotteryInteractor;

@@ -51,6 +51,42 @@ class LotteryController {
       return ResponseHandler.sendServerError(req, res, err);
     }
   }
+
+  static async getBalance(req, res) {
+    const funcName = "getBalance";
+    try {
+      const balanceResult = await lotteryInteractor.getBalance();
+
+      if (!balanceResult.status) {
+        throw new Error(balanceResult.errMsg);
+      }
+
+      return ResponseHandler.sendSuccess(
+        res,
+        "success",
+        200
+      )({
+        status: "Confirmed",
+        balance: balanceResult.result,
+      });
+    } catch (err) {
+      console.error(`[${funcName}] err:`, err);
+      return ResponseHandler.sendServerError(req, res, err);
+    }
+  }
+
+  static async getPlayers(req, res) {
+    const funcName = "getPlayers";
+    try {
+    } catch (err) {
+      console.error(`[${funcName}] err:`, err);
+      return ResponseHandler.sendServerError(req, res, err);
+    }
+  }
+
+  static async lotteryId(req, res) {}
+
+  static async lotteryHistory(req, res) {}
 }
 
 module.exports = LotteryController;

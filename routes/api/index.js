@@ -3,5 +3,6 @@
 const router = require("express").Router();
 
 router.use("/wallet", require("./wallet"));
+router.use("/lottery", require("./lottery"));
 
 module.exports = router;

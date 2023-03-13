@@ -6,9 +6,9 @@ class WalletDBInteractor {
   static async insertWallet(walletInfo) {
     const funcName = "insertWallet";
     try {
-      console.log(`ttttttttttttttt------------`);
-      console.log(`${JSON.stringify(Wallet)}`);
-      console.log(`ttttttttttttttt------------`);
+      // console.log(`ttttttttttttttt------------`);
+      // console.log(`${JSON.stringify(Wallet)}`);
+      // console.log(`ttttttttttttttt------------`);
       const sameWallet = await Wallet.findOne({
         where: {
           account: walletInfo.account,
@@ -35,6 +35,36 @@ class WalletDBInteractor {
       console.error(`[${funcName}] err:`, err);
       return {
         status: errorCodes.server_issue,
+        err: err,
+      };
+    }
+  }
+
+  static async getWallet(accountName) {
+    const funcName = "getWallet";
+    try {
+      const wallet = await Wallet.findOne({
+        where: {
+          account_name: accountName,
+        },
+      });
+      if (!_.isEmpty(wallet)) {
+        return {
+          status: errorCodes.success,
+          result: wallet,
+          err: null,
+        };
+      }
+      return {
+        status: errorCodes.client_issue,
+        result: null,
+        err: null,
+      };
+    } catch (err) {
+      console.error(`[${funcName}] err:`, err);
+      return {
+        status: errorCodes.server_issue,
+        result: null,
         err: err,
       };
     }

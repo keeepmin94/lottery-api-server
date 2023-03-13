@@ -54,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
     const masterWallet = await Wallet.findOne({
       where: { account: process.env.MASTER_WALLET_ADDRESS },
     });
-    console.log(`nananananan------------`);
+
     console.log(`${JSON.stringify(masterWallet)}`);
     if (_.isEmpty(masterWallet)) {
       // Wallet.create == insert(sequelize 제공)
@@ -64,9 +64,7 @@ module.exports = (sequelize, DataTypes) => {
         private_key: process.env.MASTER_WALLET_PRIVATE_KEY,
         is_master: true,
       });
-      console.log(`-------------------make it!!!---------`);
     }
-    console.log(`-------------------no make!!!---------`);
   });
 
   return Wallet;

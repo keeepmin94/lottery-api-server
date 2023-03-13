@@ -19,6 +19,7 @@ class CipherUtil {
       );
       const encrypt = cipher.update(text);
       return (
+        // iv 16진수 변환 
         iv.toString("hex") +
         ":" +
         Buffer.concat([encrypt, cipher.final()]).toString("hex")
@@ -37,7 +38,7 @@ class CipherUtil {
       const encryptText = Buffer.from(textParts.join(":"), "hex");
       const decipher = crypto.createDecipheriv(
         "aes-256-cbc",
-        Buffer.from(process.env.ENCRYPTION_KEY),
+        Buffer.from(process.env.ENCRYPTION_KEY), //ENCRYPTION_KEY : 사용자 개인키를 암호화하여 저장할 때 사용되는 키(32자리 문자열)
         iv
       );
       const decrypted = decipher.update(encryptText);

@@ -2,4 +2,9 @@ const path = require("path");
 
 module.exports = {
   config: path.resolve("config", "db-config.json"),
+  //기본 db config 파일 path인 config/config.json -> config/db-config.json으로 변경됐으므로
+  //변경된 db config 파일 path를 재지정
 };
+
+// https://sequelize.org/docs/v6/other-topics/migrations/#the-sequelizerc-file
+// .sequelizerc 파일이란 것을 통해 sequelize 파일들의 경로를 지정

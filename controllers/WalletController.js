@@ -26,7 +26,7 @@ class WalletController {
           "success",
           201
         )({
-          status: "Confirmed",
+          status: "Confirmed", //data값 (globalData는 빈값)
         });
       } else if (inserted.status == errorCodes.client_issue) {
         return ResponseHandler.sendClientError(

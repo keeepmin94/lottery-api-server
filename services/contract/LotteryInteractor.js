@@ -80,6 +80,29 @@ class LotteryInteractor {
       };
     }
   }
+
+  async getPlayers() {
+    const funcName = "getPlayers";
+    try {
+      const players = await this.Lottery.methods.getPlayers().call();
+      console.log(
+        `[${funcName}] players of Lottery: ${JSON.stringify(players)}`
+      );
+
+      return {
+        status: true,
+        result: players,
+        errMsg: null,
+      };
+    } catch (err) {
+      console.error(`[${funcName}] err:`, err);
+      return {
+        status: false,
+        result: null,
+        errMsg: err.message,
+      };
+    }
+  }
 }
 
 module.exports = LotteryInteractor;

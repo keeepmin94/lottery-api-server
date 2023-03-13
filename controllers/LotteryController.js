@@ -78,6 +78,20 @@ class LotteryController {
   static async getPlayers(req, res) {
     const funcName = "getPlayers";
     try {
+      const playersResult = await lotteryInteractor.getPlayers();
+
+      if (!playersResult.status) {
+        throw new Error(playersResult.errMsg);
+      }
+
+      return ResponseHandler.sendSuccess(
+        res,
+        "success",
+        200
+      )({
+        status: "Confirmed",
+        players: playersResult.result,
+      });
     } catch (err) {
       console.error(`[${funcName}] err:`, err);
       return ResponseHandler.sendServerError(req, res, err);

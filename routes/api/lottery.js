@@ -7,5 +7,7 @@ router.post("/enter", LotteryController.enter);
 
 router.get("/balance", LotteryController.getBalance);
 router.get("/players", LotteryController.getPlayers);
+router.get("/id", LotteryController.lotteryId);
+router.get("/history", LotteryController.lotteryHistory);
 
 module.exports = router;

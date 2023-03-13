@@ -98,9 +98,54 @@ class LotteryController {
     }
   }
 
-  static async lotteryId(req, res) {}
+  static async lotteryId(req, res) {
+    const funcName = "lotteryId";
+    try {
+      const lotteryIdResult = await lotteryInteractor.lotteryId();
 
-  static async lotteryHistory(req, res) {}
+      if (!lotteryIdResult.status) {
+        throw new Error(lotteryIdResult.errMsg);
+      }
+
+      return ResponseHandler.sendSuccess(
+        res,
+        "success",
+        200
+      )({
+        status: "Confirmed",
+        lottery_id: lotteryIdResult.result,
+      });
+    } catch (err) {
+      console.error(`[${funcName}] err:`, err);
+      return ResponseHandler.sendServerError(req, res, err);
+    }
+  }
+
+  static async lotteryHistory(req, res) {
+    const funcName = "lotteryHistory";
+    try {
+      const lotteryId = req.query.lottery_id;
+      console.log(`[${funcName}] req.query: ${JSON.stringify(req.query)}`);
+
+      const winnerResult = await lotteryInteractor.lotteryHistory(lotteryId);
+
+      if (!winnerResult.status) {
+        throw new Error(winnerResult.errMsg);
+      }
+
+      return ResponseHandler.sendSuccess(
+        res,
+        "success",
+        200
+      )({
+        status: "Confirmed",
+        winner: winnerResult.result,
+      });
+    } catch (err) {
+      console.error(`[${funcName}] err:`, err);
+      return ResponseHandler.sendServerError(req, res, err);
+    }
+  }
 }
 
 module.exports = LotteryController;

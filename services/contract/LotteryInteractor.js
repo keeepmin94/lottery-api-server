@@ -103,6 +103,50 @@ class LotteryInteractor {
       };
     }
   }
+
+  async lotteryId() {
+    const funcName = "lotteryId";
+    try {
+      const lotteryId = await this.Lottery.methods.lotteryId().call();
+      console.log(`[${funcName}] lotteryId: ${lotteryId}`);
+
+      return {
+        status: true,
+        result: lotteryId,
+        errMsg: null,
+      };
+    } catch (err) {
+      console.error(`[${funcName}] err:`, err);
+      return {
+        status: false,
+        result: null,
+        errMsg: err.message,
+      };
+    }
+  }
+
+  async lotteryHistory(lotteryId) {
+    const funcName = "lotteryHistory";
+    try {
+      const winner = await this.Lottery.methods
+        .lotteryHistory(lotteryId)
+        .call();
+      console.log(`[${funcName}] lotteryId ${lotteryId} winner: ${winner}`);
+
+      return {
+        status: true,
+        result: winner,
+        errMsg: null,
+      };
+    } catch (err) {
+      console.error(`[${funcName}] err:`, err);
+      return {
+        status: false,
+        result: null,
+        errMsg: err.message,
+      };
+    }
+  }
 }
 
 module.exports = LotteryInteractor;

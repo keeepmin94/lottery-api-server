@@ -146,6 +146,67 @@ class LotteryController {
       return ResponseHandler.sendServerError(req, res, err);
     }
   }
+
+  static async getRandomNumber(req, res) {
+    const funcName = "getRandomNumber";
+    try {
+      const randomResult = await lotteryInteractor.getRandomNumber();
+
+      if (!randomResult.status) {
+        throw new Error(randomResult.errMsg);
+      }
+
+      return ResponseHandler.sendSuccess(
+        res,
+        "success",
+        200
+      )({
+        status: "Confirmed",
+        random_number: randomResult.result,
+      });
+    } catch (err) {
+      console.error(`[${funcName}] err:`, err);
+      return ResponseHandler.sendServerError(req, res, err);
+    }
+  }
+
+  static async getPlayerBalance(req, res) {
+    const funcName = "getPlayerBalance";
+    try {
+      const accountName = req.query.account_name;
+      console.log(`[${funcName}] req.query: ${JSON.stringify(req.query)}`);
+
+      const wallet = await WalletDBInteractor.getWallet(accountName);
+      if (wallet.status == errorCodes.client_issue) {
+        return ResponseHandler.sendClientError(
+          400,
+          req,
+          res,
+          "this account doesn't exist in DB"
+        );
+      } else if (wallet.status == errorCodes.server_issue) {
+        throw new Error(wallet.err);
+      }
+
+      const balanceResult = await lotteryInteractor.getPlayerBalance(wallet.result.account);
+
+      if (!balanceResult.status) {
+        throw new Error(balanceResult.errMsg);
+      }
+
+      return ResponseHandler.sendSuccess(
+        res,
+        "success",
+        200
+      )({
+        status: "Confirmed",
+        balance: balanceResult.result,
+      });
+    } catch (err) {
+      console.error(`[${funcName}] err:`, err);
+      return ResponseHandler.sendServerError(req, res, err);
+    }
+  }
 }
 
 module.exports = LotteryController;

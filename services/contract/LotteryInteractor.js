@@ -147,6 +147,48 @@ class LotteryInteractor {
       };
     }
   }
+
+  async getRandomNumber() {
+    const funcName = "getRandomNumber";
+    try {
+      const randomNumber = await this.Lottery.methods.getRandomNumber().call();
+      console.log(`[${funcName}] balance of Lottery: ${randomNumber}`);
+
+      return {
+        status: true,
+        result: randomNumber,
+        errMsg: null,
+      };
+    } catch (err) {
+      console.error(`[${funcName}] err:`, err);
+      return {
+        status: false,
+        result: null,
+        errMsg: err.message,
+      };
+    }
+  }
+
+  async getPlayerBalance(account) {
+    const funcName = "getPlayerBalance";
+    try {
+      const balance = await this.web3.eth.getBalance(account);
+      console.log(`[${funcName}] account[${account}]'s balance : ${balance}`);
+
+      return {
+        status: true,
+        result: balance,
+        errMsg: null,
+      }
+    } catch (err) {
+      console.error(`[${funcName}] err:`, err);
+      return {
+        status: false,
+        result: null,
+        errMsg: err.message,
+      };
+    }
+  }
 }
 
 module.exports = LotteryInteractor;

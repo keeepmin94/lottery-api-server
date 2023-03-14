@@ -100,8 +100,8 @@ Lottery Contract 관련
 /lottery/enter         	                   [Post] // @Description Loterry 게임 입장
 /lottery/balance                           [GET]  // @Description Lottery에 적립된 상금 조회
 /lottery/players                           [GET]  // @Description 참가한 플레이어 조회
-/lottery/id  		                       [GET]  // @Description Lottery 게임 횟차수 조회
-/lottery/history?lottery_id=i  		       [GET]  // @Description i회차 Lottery 게임우승자 조회
+/lottery/id  		                            [GET]  // @Description Lottery 게임 횟차수 조회
+/lottery/history?lottery_id=i  		          [GET]  // @Description i회차 Lottery 게임우승자 조회
 /lottery/player/balance?account_name=Å     [GET]  // @Description Å의 지갑 주소 잔액
-/lottery/winner 		                   [Post] // @Description Lottery 게임 우승자 뽑기
+/lottery/winner 		                         [Post] // @Description Lottery 게임 우승자 뽑기
 ``` 

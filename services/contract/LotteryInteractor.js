@@ -179,7 +179,56 @@ class LotteryInteractor {
         status: true,
         result: balance,
         errMsg: null,
-      }
+      };
+    } catch (err) {
+      console.error(`[${funcName}] err:`, err);
+      return {
+        status: false,
+        result: null,
+        errMsg: err.message,
+      };
+    }
+  }
+
+  async pickWinner(signer, pk) {
+    const funcName = "getPlayerBalance";
+    try {
+      const gas = await this.Lottery.methods
+        .pickWinner()
+        .estimateGas({ from: signer })
+        .catch((revertReason) => {
+          throw new Error(`estimating gas error: ${revertReason}`);
+        });
+
+      console.log(`[${funcName}] estimated gas : ${gas}`);
+
+      const to = this.Lottery._address;
+      const data = this.Lottery.methods.pickWinner().encodeABI(); //enter함수 자체를 encodeABI통해서 내용 생성후 함수 내용을 넘겨줌
+
+      const serializedTx = await contractUtil.signTransaction(
+        signer,
+        pk,
+        to,
+        gas,
+        0,
+        data
+      );
+
+      //서명이 완료된 트랜잭션 전송
+      let txHash;
+      await this.web3.eth
+        .sendSignedTransaction(serializedTx)
+        .on("transactionHash", async (tx) => {
+          //마이너들에게 채택이 되면(블럭에 담기면) transactionHash 이벤트 캐치
+          console.log(`[${funcName}] transaction created! tx hash: ${tx}`);
+          txHash = tx;
+        });
+
+      return {
+        status: true,
+        result: txHash,
+        errMsg: null,
+      };
     } catch (err) {
       console.error(`[${funcName}] err:`, err);
       return {

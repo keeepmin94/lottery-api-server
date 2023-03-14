@@ -4,6 +4,7 @@ const envType = process.env.NODE_ENV || "development";
 require("dotenv").config({
   path: path.join(__dirname, `../config/${envType}.env`),
 }); //config/ envType.env(goerli || development)에 접근하기 위해 path 지정
+const CipherUtil = require("../services/CipherUtil");
 
 module.exports = (sequelize, DataTypes) => {
   const Wallet = sequelize.define(
@@ -61,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
       await Wallet.create({
         account_name: "master",
         account: process.env.MASTER_WALLET_ADDRESS,
-        private_key: process.env.MASTER_WALLET_PRIVATE_KEY,
+        private_key: CipherUtil.encrypt(process.env.MASTER_WALLET_PRIVATE_KEY),
         is_master: true,
       });
     }
